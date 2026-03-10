@@ -639,6 +639,68 @@
     html.light .theme-toggle { background: rgba(0,0,0,0.1); border-color: rgba(0,0,0,0.2); color: #fff; }
     html.light .theme-toggle:hover { background: rgba(0,0,0,0.18); }
 
+    /* ── DRAFT ORDER ── */
+    .draft-order-section {
+      padding: 12px 20px 14px;
+      background: #071c52;
+      border-top: 2px solid #1a3a7a;
+    }
+
+    .draft-order-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5px;
+      margin-top: 8px;
+    }
+
+    .draft-pick {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #0d2870;
+      border-radius: 8px;
+      padding: 7px 10px;
+      border-left: 3px solid #1a3a7a;
+    }
+
+    .draft-pick:first-child { border-left-color: #ffd700; }
+    .draft-pick:nth-child(2) { border-left-color: #c0c0c0; }
+    .draft-pick:nth-child(3) { border-left-color: #cd7f32; }
+
+    .pick-number {
+      font-family: 'Oswald', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      color: #CC3433;
+      width: 22px;
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    .draft-pick:first-child .pick-number { color: #ffd700; }
+    .draft-pick:nth-child(2) .pick-number { color: #c0c0c0; }
+    .draft-pick:nth-child(3) .pick-number { color: #cd7f32; }
+
+    .pick-dot {
+      font-size: 9px;
+      color: #3a5580;
+      flex-shrink: 0;
+    }
+
+    .pick-name {
+      font-size: 12px;
+      font-weight: 600;
+      color: #e8eeff;
+    }
+
+    html.light .draft-order-section { background: #dce8ff; border-color: #a0bce0; }
+    html.light .draft-pick { background: #eef3ff; border-left-color: #a0bce0; }
+    html.light .draft-pick:first-child { border-left-color: #ffd700; }
+    html.light .draft-pick:nth-child(2) { border-left-color: #c0c0c0; }
+    html.light .draft-pick:nth-child(3) { border-left-color: #cd7f32; }
+    html.light .pick-dot { color: #8aabcc; }
+    html.light .pick-name { color: #0a1a3a; }
+
     /* ── MOBILE ── */
     @media (max-width: 520px) {
       body { padding: 8px; }
@@ -890,6 +952,74 @@
       <div>
         <div class="draft-label">Start Time</div>
         <div class="draft-date"><span>2:00 PM</span> CST</div>
+      </div>
+    </div>
+
+    <!-- DRAFT ORDER -->
+    <div class="draft-order-section">
+      <div class="section-title">🎯 Draft Order</div>
+      <div class="draft-order-grid">
+
+        <div class="draft-pick">
+          <span class="pick-number">1</span><span class="pick-dot">▸</span>
+          <span class="pick-name">Shawn</span>
+        </div>
+
+        <div class="draft-pick">
+          <span class="pick-number">2</span><span class="pick-dot">▸</span>
+          <span class="pick-name">Wanders 14u</span>
+        </div>
+
+        <div class="draft-pick">
+          <span class="pick-number">3</span><span class="pick-dot">▸</span>
+          <span class="pick-name">trademark101</span>
+        </div>
+
+        <div class="draft-pick">
+          <span class="pick-number">4</span><span class="pick-dot">▸</span>
+          <span class="pick-name">Joshy</span>
+        </div>
+
+        <div class="draft-pick">
+          <span class="pick-number">5</span><span class="pick-dot">▸</span>
+          <span class="pick-name">Hags9</span>
+        </div>
+
+        <div class="draft-pick">
+          <span class="pick-number">6</span><span class="pick-dot">▸</span>
+          <span class="pick-name">nickc1988</span>
+        </div>
+
+        <div class="draft-pick">
+          <span class="pick-number">7</span><span class="pick-dot">▸</span>
+          <span class="pick-name">sustersic10</span>
+        </div>
+
+        <div class="draft-pick">
+          <span class="pick-number">8</span><span class="pick-dot">▸</span>
+          <span class="pick-name">davidconroy.ltd</span>
+        </div>
+
+        <div class="draft-pick">
+          <span class="pick-number">9</span><span class="pick-dot">▸</span>
+          <span class="pick-name">Spaddy</span>
+        </div>
+
+        <div class="draft-pick">
+          <span class="pick-number">10</span><span class="pick-dot">▸</span>
+          <span class="pick-name">Siersy</span>
+        </div>
+
+        <div class="draft-pick">
+          <span class="pick-number">11</span><span class="pick-dot">▸</span>
+          <span class="pick-name">Deebee</span>
+        </div>
+
+        <div class="draft-pick">
+          <span class="pick-number">12</span><span class="pick-dot">▸</span>
+          <span class="pick-name">kynfo99</span>
+        </div>
+
       </div>
     </div>
 
