@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mythical Baseball Syndicate – Dues Tracker</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Open+Sans:wght@400;600&display=swap');
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #0a0a1a;
+      font-family: 'Open Sans', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+      padding: 16px;
+    }
+
+    .card {
+      background: #0E3386;
+      border-radius: 16px;
+      width: 700px;
+      max-width: 100%;
+      overflow: hidden;
+      box-shadow: 0 0 40px rgba(204, 52, 51, 0.4), 0 0 80px rgba(14, 51, 134, 0.5);
+      border: 2px solid #CC3433;
+    }
+
+    /* ── HEADER ── */
+    .header {
+      background: linear-gradient(135deg, #0E3386 0%, #0a2260 60%, #CC3433 100%);
+      padding: 16px 24px 14px;
+      text-align: center;
+      border-bottom: 3px solid #CC3433;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+    }
+
+    .header-ball { font-size: 40px; filter: drop-shadow(0 2px 6px rgba(0,0,0,0.6)); }
+
+    .league-name {
+      font-family: 'Oswald', sans-serif;
+      font-size: 24px;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      text-shadow: 2px 2px 8px rgba(0,0,0,0.6);
+      text-align: left;
+    }
+
+    .subtitle {
+      font-family: 'Oswald', sans-serif;
+      font-size: 12px;
+      color: #CC3433;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-top: 2px;
+      font-weight: 600;
+      text-align: left;
+    }
+
+    /* ── FANTRAX BANNER ── */
+    .fantrax-banner {
+      background: linear-gradient(90deg, #0d1f4a, #102060, #0d1f4a);
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      border-bottom: 2px solid #1a3a7a;
+      flex-wrap: wrap;
+    }
+
+    .fantrax-label {
+      font-family: 'Oswald', sans-serif;
+      font-size: 11px;
+      color: #8eaad4;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    .fantrax-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: linear-gradient(135deg, #1a5cbe, #0e3a8a);
+      color: #fff;
+      font-family: 'Oswald', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 7px 14px;
+      border-radius: 8px;
+      border: 1px solid #3a7aee;
+      transition: background 0.2s, box-shadow 0.2s;
+    }
+
+    .fantrax-btn:hover {
+      background: linear-gradient(135deg, #2a6cce, #1e4a9a);
+      box-shadow: 0 0 12px rgba(58, 122, 238, 0.5);
+    }
+
+    .fantrax-divider {
+      width: 1px;
+      height: 20px;
+      background: #1a3a7a;
+    }
+
+    .fantrax-app-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: linear-gradient(135deg, #1a3a6a, #0d2450);
+      color: #8eaad4;
+      font-family: 'Oswald', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 7px 12px;
+      border-radius: 8px;
+      border: 1px solid #1a3a7a;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .fantrax-app-btn:hover {
+      background: linear-gradient(135deg, #2a4a7a, #1d3460);
+      color: #c0d4f4;
+    }
+
+    /* ── STATS BAR ── */
+    .stats {
+      background: #071c52;
+      display: flex;
+      justify-content: space-around;
+      padding: 10px 10px;
+      border-bottom: 2px solid #1a3a7a;
+    }
+
+    .stat-item { text-align: center; }
+
+    .stat-value {
+      font-family: 'Oswald', sans-serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .stat-value.green { color: #4cff91; }
+    .stat-value.red   { color: #ff5e5e; }
+
+    .stat-label {
+      font-size: 9px;
+      color: #8eaad4;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-top: 1px;
+    }
+
+    /* ── PROGRESS BAR ── */
+    .progress-section {
+      padding: 10px 20px 10px;
+      background: #071c52;
+      border-bottom: 2px solid #1a3a7a;
+    }
+
+    .progress-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 10px;
+      color: #8eaad4;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+    }
+
+    .progress-track {
+      background: #1a3a7a;
+      border-radius: 999px;
+      height: 12px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      background: linear-gradient(90deg, #4cff91, #00c95f);
+      height: 100%;
+      border-radius: 999px;
+      width: 33.33%;
+      box-shadow: 0 0 8px rgba(76, 255, 145, 0.6);
+    }
+
+    /* ── TWO COLUMN BODY ── */
+    .body-columns {
+      display: flex;
+      gap: 0;
+      border-bottom: 2px solid #1a3a7a;
+    }
+
+    /* ── PARTICIPANT LIST ── */
+    .participants-section {
+      flex: 1;
+      padding: 10px 12px 12px;
+      border-right: 2px solid #1a3a7a;
+    }
+
+    .section-title {
+      font-family: 'Oswald', sans-serif;
+      font-size: 11px;
+      letter-spacing: 2px;
+      color: #8eaad4;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+      padding-left: 2px;
+    }
+
+    .participant-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+    }
+
+    .participant {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #0d2870;
+      border-radius: 8px;
+      padding: 7px 10px;
+      border-left: 3px solid transparent;
+    }
+
+    .participant.paid {
+      border-left-color: #4cff91;
+      background: #0a2e1a;
+    }
+
+    .participant.unpaid {
+      border-left-color: #CC3433;
+    }
+
+    .participant-number {
+      font-family: 'Oswald', sans-serif;
+      font-size: 11px;
+      color: #5577bb;
+      width: 18px;
+      flex-shrink: 0;
+    }
+
+    .participant-name {
+      flex: 1;
+      font-size: 12px;
+      font-weight: 600;
+      color: #e8eeff;
+      padding-left: 5px;
+    }
+
+    .participant.paid .participant-name { color: #a0ffcc; }
+
+    .badge {
+      font-size: 9px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 999px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .paid-badge {
+      background: rgba(76, 255, 145, 0.15);
+      color: #4cff91;
+      border: 1px solid rgba(76, 255, 145, 0.4);
+    }
+
+    .unpaid-badge {
+      background: rgba(204, 52, 51, 0.15);
+      color: #ff6b6b;
+      border: 1px solid rgba(204, 52, 51, 0.4);
+    }
+
+    /* ── RIGHT COLUMN (PRIZES + PAYMENT) ── */
+    .right-column {
+      width: 220px;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── PRIZE POOL ── */
+    .prize-section {
+      padding: 10px 14px 12px;
+      border-bottom: 2px solid #1a3a7a;
+      flex: 1;
+    }
+
+    .prize-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .prize-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #0d2870;
+      border-radius: 8px;
+      padding: 7px 10px;
+    }
+
+    .prize-item:first-child { background: #1a3000; border: 1px solid #ffd700; }
+    .prize-item:nth-child(2) { background: #1a1f2e; border: 1px solid #c0c0c0; }
+    .prize-item:nth-child(3) { background: #1f1208; border: 1px solid #cd7f32; }
+    .prize-item:last-child { border: 1px solid #1a3a7a; }
+
+    .prize-place {
+      font-size: 11px;
+      font-weight: 600;
+      color: #ccc;
+    }
+
+    .prize-item:first-child .prize-place { color: #ffd700; }
+    .prize-item:nth-child(2) .prize-place { color: #c0c0c0; }
+    .prize-item:nth-child(3) .prize-place { color: #cd7f32; }
+    .prize-item:last-child .prize-place { color: #8eaad4; }
+
+    .prize-amount {
+      font-family: 'Oswald', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .prize-item:first-child .prize-amount { color: #ffd700; }
+
+    /* ── PAYMENT SECTION ── */
+    .payment-section {
+      background: #071c52;
+      padding: 10px 14px 12px;
+      border-top: 2px solid #1a3a7a;
+    }
+
+    .payment-methods {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .payment-method {
+      background: #0d2870;
+      border-radius: 8px;
+      padding: 8px 10px;
+      text-align: center;
+      border: 1px solid #1a3a7a;
+      text-decoration: none;
+      display: block;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    a.payment-method:hover {
+      border-color: #3a7aee;
+      box-shadow: 0 0 10px rgba(58, 122, 238, 0.3);
+    }
+
+    .payment-method.venmo-method:hover { border-color: #008CFF; box-shadow: 0 0 10px rgba(0,140,255,0.25); }
+    .payment-method.zelle-method:hover { border-color: #9b59f5; box-shadow: 0 0 10px rgba(155,89,245,0.25); }
+
+    .payment-app {
+      font-family: 'Oswald', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .payment-app.venmo { color: #008CFF; }
+    .payment-app.zelle { color: #9b59f5; }
+
+    .payment-handle {
+      font-size: 11px;
+      font-weight: 700;
+      color: #fff;
+      margin-top: 2px;
+    }
+
+    .payment-note {
+      font-size: 9px;
+      color: #8eaad4;
+      margin-top: 2px;
+      font-style: italic;
+    }
+
+    .pay-cta {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-top: 4px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      display: inline-block;
+    }
+
+    .venmo-method .pay-cta { background: rgba(0,140,255,0.15); color: #008CFF; border: 1px solid rgba(0,140,255,0.3); }
+    .zelle-method .pay-cta  { background: rgba(155,89,245,0.15); color: #9b59f5; border: 1px solid rgba(155,89,245,0.3); }
+
+    /* ── ZELLE COPY ── */
+    .zelle-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      margin-top: 2px;
+    }
+
+    .copy-btn {
+      background: rgba(155,89,245,0.12);
+      border: 1px solid rgba(155,89,245,0.35);
+      color: #9b59f5;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      padding: 2px 7px;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    .copy-btn:hover { background: rgba(155,89,245,0.25); }
+    .copy-btn.copied { color: #4cff91; border-color: rgba(76,255,145,0.4); background: rgba(76,255,145,0.1); }
+
+    /* ── DRAFT BANNER ── */
+    .draft-banner {
+      background: linear-gradient(90deg, #071c52, #0d2870, #071c52);
+      border-top: 2px solid #CC3433;
+      border-bottom: 2px solid #CC3433;
+      padding: 10px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      text-align: center;
+      flex-wrap: wrap;
+    }
+
+    .draft-icon { font-size: 22px; }
+
+    .draft-label {
+      font-family: 'Oswald', sans-serif;
+      font-size: 11px;
+      color: #8eaad4;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    .draft-date {
+      font-family: 'Oswald', sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: 1px;
+    }
+
+    .draft-date span { color: #CC3433; }
+
+    .draft-divider {
+      width: 1px;
+      height: 32px;
+      background: #1a3a7a;
+    }
+
+    /* ── COUNTDOWN ── */
+    .countdown-section {
+      background: #050e30;
+      padding: 8px 20px;
+      display: flex;
+      justify-content: center;
+      gap: 4px;
+      border-bottom: 2px solid #1a3a7a;
+      flex-wrap: wrap;
+    }
+
+    .countdown-label-top {
+      font-family: 'Oswald', sans-serif;
+      font-size: 10px;
+      color: #8eaad4;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      width: 100%;
+      text-align: center;
+      margin-bottom: 6px;
+    }
+
+    .countdown-unit {
+      text-align: center;
+      min-width: 52px;
+    }
+
+    .countdown-value {
+      font-family: 'Oswald', sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: #CC3433;
+      line-height: 1;
+    }
+
+    .countdown-unit-label {
+      font-size: 8px;
+      color: #5577bb;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-top: 2px;
+    }
+
+    .countdown-sep {
+      font-family: 'Oswald', sans-serif;
+      font-size: 20px;
+      color: #1a3a7a;
+      align-self: flex-start;
+      padding-top: 2px;
+    }
+
+    /* ── FOOTER ── */
+    .footer {
+      background: #050e30;
+      text-align: center;
+      padding: 9px;
+      font-size: 10px;
+      color: #3a5580;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      border-top: 2px solid #1a3a7a;
+    }
+
+    .footer span { color: #CC3433; font-weight: 700; }
+
+    /* ── MOBILE ── */
+    @media (max-width: 520px) {
+      body { padding: 8px; }
+
+      .league-name { font-size: 18px; }
+
+      .body-columns { flex-direction: column; }
+
+      .right-column { width: 100%; border-top: 2px solid #1a3a7a; }
+
+      .prize-section { border-bottom: 2px solid #1a3a7a; }
+
+      .participant-grid { grid-template-columns: 1fr; }
+
+      .stats { flex-wrap: wrap; gap: 8px; padding: 10px; }
+      .stat-item { min-width: 40%; }
+
+      .fantrax-banner { gap: 6px; }
+      .fantrax-label { width: 100%; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+
+    <!-- HEADER -->
+    <div class="header">
+      <div class="header-ball">⚾</div>
+      <div class="header-text">
+        <div class="league-name">Mythical Baseball Syndicate</div>
+        <div class="subtitle">2026 Season &bull; League Dues Tracker</div>
+      </div>
+    </div>
+
+    <!-- FANTRAX LINKS -->
+    <div class="fantrax-banner">
+      <span class="fantrax-label">Play on Fantrax</span>
+      <a class="fantrax-btn" href="https://www.fantrax.com/fantasy/league/m2m6gv9jmk5z01v0/home" target="_blank" rel="noopener">
+        🏟 League Home
+      </a>
+      <div class="fantrax-divider"></div>
+      <a class="fantrax-app-btn" id="app-download-btn" href="https://www.fantrax.com/mobile" target="_blank" rel="noopener">
+        📲 Download App
+      </a>
+    </div>
+
+    <!-- STATS -->
+    <div class="stats">
+      <div class="stat-item">
+        <div class="stat-value">$150</div>
+        <div class="stat-label">Dues / Person</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value green">$600</div>
+        <div class="stat-label">Collected</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value red">$1,200</div>
+        <div class="stat-label">Outstanding</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value">$1,800</div>
+        <div class="stat-label">Total Pool</div>
+      </div>
+    </div>
+
+    <!-- PROGRESS BAR -->
+    <div class="progress-section">
+      <div class="progress-label">
+        <span>Payment Progress</span>
+        <span>4 / 12 Paid</span>
+      </div>
+      <div class="progress-track">
+        <div class="progress-fill"></div>
+      </div>
+    </div>
+
+    <!-- COUNTDOWN -->
+    <div class="countdown-section">
+      <div class="countdown-label-top">⏳ Draft Day Countdown</div>
+      <div class="countdown-unit"><div class="countdown-value" id="cd-days">--</div><div class="countdown-unit-label">Days</div></div>
+      <div class="countdown-sep">:</div>
+      <div class="countdown-unit"><div class="countdown-value" id="cd-hours">--</div><div class="countdown-unit-label">Hours</div></div>
+      <div class="countdown-sep">:</div>
+      <div class="countdown-unit"><div class="countdown-value" id="cd-mins">--</div><div class="countdown-unit-label">Mins</div></div>
+      <div class="countdown-sep">:</div>
+      <div class="countdown-unit"><div class="countdown-value" id="cd-secs">--</div><div class="countdown-unit-label">Secs</div></div>
+    </div>
+
+    <!-- BODY: PARTICIPANTS LEFT | PRIZES + PAYMENT RIGHT -->
+    <div class="body-columns">
+
+      <!-- PARTICIPANTS -->
+      <div class="participants-section">
+        <div class="section-title">Participants</div>
+        <div class="participant-grid">
+
+          <div class="participant paid">
+            <span class="participant-number">1</span>
+            <span class="participant-name">Joshy</span>
+            <span class="badge paid-badge">✔ Paid</span>
+          </div>
+
+          <div class="participant unpaid">
+            <span class="participant-number">2</span>
+            <span class="participant-name">sustersic10</span>
+            <span class="badge unpaid-badge">✖ Unpaid</span>
+          </div>
+
+          <div class="participant unpaid">
+            <span class="participant-number">3</span>
+            <span class="participant-name">Deebee</span>
+            <span class="badge unpaid-badge">✖ Unpaid</span>
+          </div>
+
+          <div class="participant paid">
+            <span class="participant-number">4</span>
+            <span class="participant-name">davidconroy.ltd</span>
+            <span class="badge paid-badge">✔ Paid</span>
+          </div>
+
+          <div class="participant unpaid">
+            <span class="participant-number">5</span>
+            <span class="participant-name">Hags9</span>
+            <span class="badge unpaid-badge">✖ Unpaid</span>
+          </div>
+
+          <div class="participant unpaid">
+            <span class="participant-number">6</span>
+            <span class="participant-name">kynfo99</span>
+            <span class="badge unpaid-badge">✖ Unpaid</span>
+          </div>
+
+          <div class="participant unpaid">
+            <span class="participant-number">7</span>
+            <span class="participant-name">nickc1988</span>
+            <span class="badge unpaid-badge">✖ Unpaid</span>
+          </div>
+
+          <div class="participant unpaid">
+            <span class="participant-number">8</span>
+            <span class="participant-name">Shawn</span>
+            <span class="badge unpaid-badge">✖ Unpaid</span>
+          </div>
+
+          <div class="participant paid">
+            <span class="participant-number">9</span>
+            <span class="participant-name">Siersy</span>
+            <span class="badge paid-badge">✔ Paid</span>
+          </div>
+
+          <div class="participant unpaid">
+            <span class="participant-number">10</span>
+            <span class="participant-name">Spaddy</span>
+            <span class="badge unpaid-badge">✖ Unpaid</span>
+          </div>
+
+          <div class="participant paid">
+            <span class="participant-number">11</span>
+            <span class="participant-name">trademark101</span>
+            <span class="badge paid-badge">✔ Paid</span>
+          </div>
+
+          <div class="participant unpaid">
+            <span class="participant-number">12</span>
+            <span class="participant-name">Wanders 14u</span>
+            <span class="badge unpaid-badge">✖ Unpaid</span>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- RIGHT COLUMN -->
+      <div class="right-column">
+
+        <!-- PRIZE POOL -->
+        <div class="prize-section">
+          <div class="section-title">🏆 Prize Pool</div>
+          <div class="prize-list">
+
+            <div class="prize-item">
+              <span class="prize-place">🥇 1st Place</span>
+              <span class="prize-amount">$1,400</span>
+            </div>
+
+            <div class="prize-item">
+              <span class="prize-place">🥈 2nd Place</span>
+              <span class="prize-amount">$200</span>
+            </div>
+
+            <div class="prize-item">
+              <span class="prize-place">🥉 3rd Place</span>
+              <span class="prize-amount">$100</span>
+            </div>
+
+            <div class="prize-item">
+              <span class="prize-place">📅 Best Reg. Season</span>
+              <span class="prize-amount">$100</span>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- PAYMENT INFO -->
+        <div class="payment-section">
+          <div class="section-title">💰 Pay Dues ($150)</div>
+          <div class="payment-methods">
+
+            <a class="payment-method venmo-method"
+               href="https://venmo.com/Josh-Echevarria-1?txn=pay&amount=150&note=2026%20Fantasy%20Baseball%20Dues"
+               target="_blank" rel="noopener">
+              <div class="payment-app venmo">💙 Venmo</div>
+              <div class="payment-handle">@Josh-Echevarria-1</div>
+              <div class="payment-note">Verify: Joshua Echevarria</div>
+              <div class="pay-cta">Tap to Pay →</div>
+            </a>
+
+            <div class="payment-method zelle-method">
+              <div class="payment-app zelle">💜 Zelle</div>
+              <div class="zelle-row">
+                <span class="payment-handle" id="zelle-number">708-305-4592</span>
+                <button class="copy-btn" id="copy-zelle-btn" onclick="copyZelle()">Copy</button>
+              </div>
+              <div class="payment-note">Joshua Echevarria — verify name</div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- DRAFT BANNER -->
+    <div class="draft-banner">
+      <div class="draft-icon">📋</div>
+      <div>
+        <div class="draft-label">Draft Day</div>
+        <div class="draft-date">March 15, 2026</div>
+      </div>
+      <div class="draft-divider"></div>
+      <div class="draft-icon">⏰</div>
+      <div>
+        <div class="draft-label">Start Time</div>
+        <div class="draft-date"><span>2:00 PM</span> CST</div>
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+      Commissioner: <span>Joshy</span> &bull; Pay up or sit down ⚾
+    </div>
+
+  </div>
+
+  <script>
+    // ── APP DOWNLOAD LINK (platform-aware) ──
+    (function() {
+      const ua = navigator.userAgent || '';
+      const btn = document.getElementById('app-download-btn');
+      if (/iPhone|iPad|iPod/i.test(ua)) {
+        btn.href = 'https://apps.apple.com/us/app/fantrax-fantasy-sports/id1463442455';
+      } else if (/Android/i.test(ua)) {
+        btn.href = 'https://play.google.com/store/apps/details?id=com.fantrax.www.twa&hl=en_US';
+      }
+      // else desktop: keep the default fantrax.com/mobile
+    })();
+
+    // ── COUNTDOWN TIMER ──
+    const draftDate = new Date('2026-03-15T14:00:00-06:00'); // 2:00 PM CST
+
+    function updateCountdown() {
+      const now = new Date();
+      const diff = draftDate - now;
+
+      if (diff <= 0) {
+        document.getElementById('cd-days').textContent  = '00';
+        document.getElementById('cd-hours').textContent = '00';
+        document.getElementById('cd-mins').textContent  = '00';
+        document.getElementById('cd-secs').textContent  = '00';
+        return;
+      }
+
+      const days  = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const mins  = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const secs  = Math.floor((diff % (1000 * 60)) / 1000);
+
+      document.getElementById('cd-days').textContent  = String(days).padStart(2, '0');
+      document.getElementById('cd-hours').textContent = String(hours).padStart(2, '0');
+      document.getElementById('cd-mins').textContent  = String(mins).padStart(2, '0');
+      document.getElementById('cd-secs').textContent  = String(secs).padStart(2, '0');
+    }
+
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+
+    // ── COPY ZELLE NUMBER ──
+    function copyZelle() {
+      navigator.clipboard.writeText('7083054592').then(() => {
+        const btn = document.getElementById('copy-zelle-btn');
+        btn.textContent = 'Copied!';
+        btn.classList.add('copied');
+        setTimeout(() => {
+          btn.textContent = 'Copy';
+          btn.classList.remove('copied');
+        }, 2000);
+      });
+    }
+  </script>
+</body>
+</html>
