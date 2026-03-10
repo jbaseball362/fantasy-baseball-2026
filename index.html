@@ -584,7 +584,7 @@
         🏟 League Home
       </a>
       <div class="fantrax-divider"></div>
-      <a class="fantrax-app-btn" href="https://www.fantrax.com/mobile" target="_blank" rel="noopener">
+      <a class="fantrax-app-btn" id="app-download-btn" href="https://www.fantrax.com/mobile" target="_blank" rel="noopener">
         📲 Download App
       </a>
     </div>
@@ -798,6 +798,18 @@
   </div>
 
   <script>
+    // ── APP DOWNLOAD LINK (platform-aware) ──
+    (function() {
+      const ua = navigator.userAgent || '';
+      const btn = document.getElementById('app-download-btn');
+      if (/iPhone|iPad|iPod/i.test(ua)) {
+        btn.href = 'https://apps.apple.com/us/app/fantrax-fantasy-sports/id1463442455';
+      } else if (/Android/i.test(ua)) {
+        btn.href = 'https://play.google.com/store/apps/details?id=com.fantrax.www.twa&hl=en_US';
+      }
+      // else desktop: keep the default fantrax.com/mobile
+    })();
+
     // ── COUNTDOWN TIMER ──
     const draftDate = new Date('2026-03-15T14:00:00-06:00'); // 2:00 PM CST
 
