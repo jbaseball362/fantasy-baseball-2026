@@ -543,6 +543,102 @@
 
     .footer span { color: #CC3433; font-weight: 700; }
 
+    /* ── THEME TOGGLE BUTTON ── */
+    .theme-toggle {
+      margin-left: auto;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.25);
+      color: #fff;
+      font-family: 'Oswald', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 5px 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s;
+      flex-shrink: 0;
+    }
+    .theme-toggle:hover { background: rgba(255,255,255,0.2); }
+
+    /* ── SEASON UNDERWAY BANNER ── */
+    .season-underway {
+      background: linear-gradient(90deg, #071c52, #0d2870, #071c52);
+      border-bottom: 2px solid #1a3a7a;
+      padding: 12px 20px;
+      text-align: center;
+      display: none;
+    }
+    .season-underway-text {
+      font-family: 'Oswald', sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: #4cff91;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+    .season-underway-sub {
+      font-size: 10px;
+      color: #8eaad4;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-top: 2px;
+    }
+
+    /* ── LAST UPDATED ── */
+    .last-updated {
+      font-size: 9px;
+      color: #3a5580;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-top: 4px;
+    }
+
+    /* ── LIGHT MODE ── */
+    html.light body { background: #e4ebf7; }
+    html.light .card { background: #fff; box-shadow: 0 0 30px rgba(14,51,134,0.15); border-color: #CC3433; }
+    html.light .fantrax-banner { background: linear-gradient(90deg, #c8d8f0, #d4e0f8, #c8d8f0); border-color: #a0bce0; }
+    html.light .fantrax-label { color: #3a5a9a; }
+    html.light .fantrax-divider { background: #a0bce0; }
+    html.light .fantrax-app-btn { background: linear-gradient(135deg, #d0dcf4, #c0ccec); color: #3a5a9a; border-color: #a0bce0; }
+    html.light .fantrax-app-btn:hover { background: linear-gradient(135deg, #b8ccee, #a8bce4); color: #0a2260; }
+    html.light .stats { background: #dce8ff; border-color: #a0bce0; }
+    html.light .stat-value { color: #0a1a3a; }
+    html.light .stat-label { color: #4a6090; }
+    html.light .progress-section { background: #dce8ff; border-color: #a0bce0; }
+    html.light .progress-label { color: #4a6090; }
+    html.light .progress-track { background: #a0bce0; }
+    html.light .body-columns { border-color: #a0bce0; }
+    html.light .participants-section { border-color: #a0bce0; }
+    html.light .section-title { color: #3a5a9a; }
+    html.light .participant { background: #eef3ff; }
+    html.light .participant.paid { background: #e0fff0; }
+    html.light .participant-number { color: #6a8abb; }
+    html.light .participant-name { color: #0a1a3a; }
+    html.light .participant.paid .participant-name { color: #006630; }
+    html.light .prize-section { border-color: #a0bce0; }
+    html.light .prize-item { background: #eef3ff; }
+    html.light .prize-amount { color: #0a1a3a; }
+    html.light .payment-section { background: #dce8ff; border-color: #a0bce0; }
+    html.light .payment-method { background: #eef3ff; border-color: #a0bce0; }
+    html.light .payment-handle { color: #0a1a3a; }
+    html.light .payment-note { color: #4a6090; }
+    html.light .draft-banner { background: linear-gradient(90deg, #c8d8f0, #d4e0f8, #c8d8f0); }
+    html.light .draft-label { color: #4a6090; }
+    html.light .draft-date { color: #0a1a3a; }
+    html.light .draft-divider { background: #a0bce0; }
+    html.light .countdown-section { background: #c8d4f0; border-color: #a0bce0; }
+    html.light .countdown-label-top { color: #3a5a9a; }
+    html.light .countdown-unit-label { color: #4a6090; }
+    html.light .countdown-sep { color: #a0bce0; }
+    html.light .season-underway { background: linear-gradient(90deg, #c8d8f0, #d4e0f8, #c8d8f0); border-color: #a0bce0; }
+    html.light .season-underway-sub { color: #4a6090; }
+    html.light .footer { background: #c0cce8; border-color: #a0bce0; color: #4a6090; }
+    html.light .last-updated { color: #7a90b0; }
+    html.light .theme-toggle { background: rgba(0,0,0,0.1); border-color: rgba(0,0,0,0.2); color: #fff; }
+    html.light .theme-toggle:hover { background: rgba(0,0,0,0.18); }
+
     /* ── MOBILE ── */
     @media (max-width: 520px) {
       body { padding: 8px; }
@@ -575,6 +671,7 @@
         <div class="league-name">Mythical Baseball Syndicate</div>
         <div class="subtitle">2026 Season &bull; League Dues Tracker</div>
       </div>
+      <button class="theme-toggle" id="theme-toggle-btn" onclick="toggleTheme()">☀ Light</button>
     </div>
 
     <!-- FANTRAX LINKS -->
@@ -621,7 +718,7 @@
     </div>
 
     <!-- COUNTDOWN -->
-    <div class="countdown-section">
+    <div class="countdown-section" id="countdown-section">
       <div class="countdown-label-top">⏳ Draft Day Countdown</div>
       <div class="countdown-unit"><div class="countdown-value" id="cd-days">--</div><div class="countdown-unit-label">Days</div></div>
       <div class="countdown-sep">:</div>
@@ -630,6 +727,12 @@
       <div class="countdown-unit"><div class="countdown-value" id="cd-mins">--</div><div class="countdown-unit-label">Mins</div></div>
       <div class="countdown-sep">:</div>
       <div class="countdown-unit"><div class="countdown-value" id="cd-secs">--</div><div class="countdown-unit-label">Secs</div></div>
+    </div>
+
+    <!-- SEASON UNDERWAY (shown after draft) -->
+    <div class="season-underway" id="season-underway">
+      <div class="season-underway-text">⚾ Season Underway</div>
+      <div class="season-underway-sub">Draft complete &bull; 2026 Season in progress</div>
     </div>
 
     <!-- BODY: PARTICIPANTS LEFT | PRIZES + PAYMENT RIGHT -->
@@ -793,6 +896,7 @@
     <!-- FOOTER -->
     <div class="footer">
       Commissioner: <span>Joshy</span> &bull; Pay up or sit down ⚾
+      <div class="last-updated">Last updated: March 10, 2026</div>
     </div>
 
   </div>
@@ -818,10 +922,8 @@
       const diff = draftDate - now;
 
       if (diff <= 0) {
-        document.getElementById('cd-days').textContent  = '00';
-        document.getElementById('cd-hours').textContent = '00';
-        document.getElementById('cd-mins').textContent  = '00';
-        document.getElementById('cd-secs').textContent  = '00';
+        document.getElementById('countdown-section').style.display = 'none';
+        document.getElementById('season-underway').style.display = 'block';
         return;
       }
 
@@ -838,6 +940,19 @@
 
     updateCountdown();
     setInterval(updateCountdown, 1000);
+
+    // ── THEME TOGGLE ──
+    const btn = document.getElementById('theme-toggle-btn');
+    if (localStorage.getItem('theme') === 'light') {
+      document.documentElement.classList.add('light');
+      btn.textContent = '🌙 Dark';
+    }
+
+    function toggleTheme() {
+      const isLight = document.documentElement.classList.toggle('light');
+      btn.textContent = isLight ? '🌙 Dark' : '☀ Light';
+      localStorage.setItem('theme', isLight ? 'light' : 'dark');
+    }
 
     // ── COPY ZELLE NUMBER ──
     function copyZelle() {
